@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 1. Page Load Animation */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.6s ease-out forwards;
+    /* 'forwards' keeps the end state */
+}
+
+
+/* 2. The "Recommended Glow" effect for the premium card */
+.pricing-card.recommended-glow {
+    position: relative;
+    overflow: hidden;
+    /* Important to contain the pseudo-element */
+}
+
+.pricing-card.recommended-glow::before {
+    content: '';
+    position: absolute;
+    /* Use the CSS variables set by the mouse move event in React */
+    left: var(--mouse-x);
+    top: var(--mouse-y);
+    width: 0;
+    height: 0;
+    background-image: radial-gradient(circle 400px at center, rgba(96, 165, 250, 0.25), transparent);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+    pointer-events: none;
+    /* Make sure it doesn't block mouse events on the card */
+}
+
+.pricing-card.recommended-glow:hover::before {
+    opacity: 1;
+}
