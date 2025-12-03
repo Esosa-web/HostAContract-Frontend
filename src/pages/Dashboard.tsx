@@ -50,8 +50,8 @@ const SAVINGS_DATA = [
 const ACTIVE_CONTRACTS = [
     { id: 1, title: 'Road Maintenance Framework 2025', value: '£90,000', deadline: '14 Days Left', applicants: 12, status: 'Live' },
     { id: 2, title: 'City Centre Public Wi-Fi Upgrade', value: '£60,000', deadline: '5 Days Left', applicants: 8, status: 'Reviewing' },
-    { id: 3, title: 'Green Spaces Landscaping Contract', value: '£35,000', deadline: '28 Days Left', applicants: 3, status: 'Live' },
-    { id: 4, title: 'School IT Equipment Refresh', value: '£85,000', deadline: '2 Days Left', applicants: 15, status: 'Closing Soon' },
+    { id: 3, title: 'Green Spaces Landscaping Contract', value: '£85,000', deadline: '28 Days Left', applicants: 3, status: 'Live' },
+    { id: 4, title: 'School IT Equipment Refresh', value: '£35,000', deadline: '2 Days Left', applicants: 15, status: 'Closing Soon' },
 ];
 
 // Enhanced Archive Data with "Type"
@@ -206,7 +206,7 @@ const Dashboard = () => {
                             onClick={() => setActiveTab('active')}
                             className={`px-5 py-2 text-sm font-bold rounded-lg transition-all ${activeTab === 'active' ? 'bg-white dark:bg-slate-800 text-red-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}
                         >
-                            Active Contracts
+                            Live Procurement
                         </button>
                         <button 
                             onClick={() => setActiveTab('archive')}

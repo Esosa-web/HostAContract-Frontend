@@ -8,8 +8,11 @@ import {
   HiX, 
   HiOutlineUserCircle, 
   HiOutlineLogout, 
-  HiOutlineOfficeBuilding,
 } from 'react-icons/hi';
+
+// --- ASSETS ---
+import logoHostPart from '../../assets/logo-host-part.png'; 
+import hacTextPart from '../../assets/logo-acontract-part.png'; // Updated import
 
 const Navbar: React.FC = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -21,7 +24,6 @@ const Navbar: React.FC = () => {
     navigate('/');
   };
 
-  // Helper to get initials safely based on your types
   const getUserInitials = () => {
     if (user?.first_name) return user.first_name.charAt(0).toUpperCase();
     if (user?.email) return user.email.charAt(0).toUpperCase();
@@ -36,21 +38,48 @@ const Navbar: React.FC = () => {
     }`;
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <nav className="fixed top-0 w-full z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
-          {/* 1. Logo Section */}
-          <div className="flex-shrink-0">
-            <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center text-white shadow-md group-hover:shadow-red-500/30 transition-all">
-                <HiOutlineOfficeBuilding className="w-5 h-5" />
-              </div>
-              <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-300">
-                HostAContract
-              </span>
-            </Link>
+          {/* ================================================================= */}
+          {/* 1. ANIMATED LOGO SECTION */}
+          {/* ================================================================= */}
+          <div className="flex-shrink-0 flex items-center overflow-visible">
+             <Link 
+                to="/" 
+                className="group relative p-2 rounded-lg overflow-visible focus:outline-none"
+             >
+                <div className="flex items-center gap-x-0.5">
+                    
+                    {/* PART A: The Host Icon */}
+                    {/* Size: h-9 (36px) to match your reference file */}
+                    <div className="relative origin-left transition-transform duration-300 ease-out group-hover:scale-110">
+                        <img 
+                            src={logoHostPart} 
+                            alt="Host Icon" 
+                            className="h-9 w-auto object-contain" 
+                        />
+                        
+                        {/* The Status Dot */}
+                        <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full border-2 border-white dark:border-slate-900 bg-emerald-500 shadow-sm transition-all duration-300 group-hover:scale-125 group-hover:shadow-lg group-hover:shadow-emerald-500/20"></div>
+                    </div>
+
+                    {/* PART B: The 'aContract' Text */}
+                    {/* Size: h-5 (20px) to match your reference file */}
+                    <div className="transition-transform duration-300 ease-out group-hover:translate-x-1">
+                        <img 
+                            src={hacTextPart} 
+                            alt="aContract Text" 
+                            className="h-5 w-auto object-contain mt-0.5" 
+                        />
+                    </div>
+
+                </div>
+             </Link>
           </div>
+          {/* ================================================================= */}
+
 
           {/* 2. Desktop Navigation */}
           <div className="hidden md:block ml-10">
@@ -77,7 +106,7 @@ const Navbar: React.FC = () => {
               ) : (
                 <Menu as="div" className="ml-3 relative">
                   <div>
-                    <Menu.Button className="flex max-w-xs items-center rounded-full bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">
+                    <Menu.Button className="flex max-w-xs items-center rounded-full bg-white dark:bg-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-shadow">
                       <span className="sr-only">Open user menu</span>
                       <div className="h-9 w-9 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800">
                         <span className="font-bold text-sm">
@@ -145,7 +174,7 @@ const Navbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900"
+            className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden"
           >
             <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
               <NavLink to="/" onClick={() => setIsMobileMenuOpen(false)} className={({isActive}) => `block px-3 py-2 rounded-md text-base font-medium ${isActive ? 'bg-red-50 text-red-600' : 'text-slate-700 hover:bg-slate-50'}`}>
@@ -160,8 +189,8 @@ const Navbar: React.FC = () => {
             <div className="border-t border-slate-200 dark:border-slate-800 pt-4 pb-4">
               {!isAuthenticated ? (
                 <div className="px-5 space-y-3">
-                    <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="block text-center w-full px-4 py-2 text-slate-600 border border-slate-300 rounded-lg font-medium">Log In</Link>
-                    <Link to="/register" onClick={() => setIsMobileMenuOpen(false)} className="block text-center w-full px-4 py-2 bg-red-600 text-white rounded-lg font-medium">Register Council</Link>
+                    <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="block text-center w-full px-4 py-2 text-slate-600 border border-slate-300 rounded-lg font-medium hover:bg-slate-50">Log In</Link>
+                    <Link to="/register" onClick={() => setIsMobileMenuOpen(false)} className="block text-center w-full px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700">Register Council</Link>
                 </div>
               ) : (
                 <div className="px-5 flex items-center justify-between">
