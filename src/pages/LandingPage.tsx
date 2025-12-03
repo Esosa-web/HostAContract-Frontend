@@ -50,7 +50,7 @@ const COUNCILS = [
   { 
     id: 'manchester', 
     name: 'Manchester City Council', 
-    status: 'Pilot', 
+    status: 'Demo', 
     region: 'North West',
     logo: '/logos/manchesterlogo.png' 
   },
@@ -247,8 +247,16 @@ const PortalTerminal = ({ onSelect }: { onSelect: (id: string, status: string) =
                                     {council.name}
                                 </h4>
                                 <div className="flex items-center gap-2 mt-0.5">
-                                    <span className={`w-1.5 h-1.5 rounded-full ${council.status === 'Operational' ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
-                                    <span className="text-[10px] text-slate-400 uppercase tracking-wide">{council.status}</span>
+                                    {/* UPDATED DOT LOGIC */}
+                                    <span className={`w-1.5 h-1.5 rounded-full ${
+                                        council.status === 'Operational' ? 'bg-emerald-500' : 
+                                        council.status === 'Demo' ? 'bg-blue-500' : // <--- Blue for Demo
+                                        'bg-amber-500' // Amber for Pilot
+                                    }`}></span>
+                                    
+                                    <span className="text-[10px] text-slate-400 uppercase tracking-wide">
+                                        {council.status}
+                                    </span>
                                 </div>
                             </div>
 
@@ -308,6 +316,9 @@ const LandingPage = () => {
         });
         return;
     }
+
+    localStorage.setItem('selected_council_id', councilId); 
+    
     // Navigate with animation feeling
     const loadingToast = toast.loading('Establishing secure connection...');
     setTimeout(() => {

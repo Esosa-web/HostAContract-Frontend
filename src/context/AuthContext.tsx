@@ -4,7 +4,7 @@ import { AuthenticatedUser, AuthState, AuthContextType } from '../types';
 // --- MOCK USER DATA ---
 const MOCK_USER: AuthenticatedUser = {
     id: 999,
-    email: 'demo@winacontract.com',
+    email: 'demo@hostacontract.com',
     username: 'demo_user',
     first_name: 'Demo',
     last_name: 'User',
@@ -40,12 +40,17 @@ export const useAuth = () => {
 };
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    // Initialize state from localStorage if available, so refresh works
+    // Initialize state from localStorage so it persists on refresh
     const [authState, setAuthState] = useState<AuthState>(() => {
         const storedToken = localStorage.getItem('mockToken');
+        const storedUserStr = localStorage.getItem('mockUser');
+        
+        // If we have a stored user, parse it. Otherwise fallback to default MOCK_USER
+        const userToLoad = storedUserStr ? JSON.parse(storedUserStr) : MOCK_USER;
+
         return {
             isAuthenticated: !!storedToken,
-            user: storedToken ? MOCK_USER : null,
+            user: storedToken ? userToLoad : null, // Load the SPECIFIC saved user (with councilId)
             token: storedToken,
             isLoading: false,
             error: null
@@ -57,18 +62,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }, []);
 
     // --- MOCK LOGIN FUNCTION ---
-    const login = useCallback(async (email_: string, password_: string) => {
+    const login = useCallback(async (email_: string, password_: string, councilId?: string) => {
         console.log("MOCK LOGIN: Skipping backend check.");
         
-        // Simulate network delay for realism (optional)
         setAuthState(prev => ({ ...prev, isLoading: true }));
         await new Promise(resolve => setTimeout(resolve, 800)); 
 
-        // Always succeed
+        // Update the Mock User with the selected Council ID
+        const userWithCouncil = {
+            ...MOCK_USER,
+            councilId: councilId || 'watford' // Default if none selected
+        };
+
+        // Persist to storage
         localStorage.setItem('mockToken', 'demo-token-123');
+        localStorage.setItem('mockUser', JSON.stringify(userWithCouncil)); // Save User config
+
         setAuthState({
             isAuthenticated: true,
-            user: MOCK_USER,
+            user: userWithCouncil,
             token: 'demo-token-123',
             isLoading: false,
             error: null,

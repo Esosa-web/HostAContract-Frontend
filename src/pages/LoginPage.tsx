@@ -17,8 +17,8 @@ const COUNCILS_MAP: Record<string, { name: string, logo: string | null }> = {
     dacorum: { name: 'Dacorum Borough Council', logo: '/logos/dacorumlogo.jpg' },
     hertsmere: { name: 'Hertsmere Borough Council', logo: '/logos/hertsmerelogo.png' },
     stalbans: { name: 'St Albans City & District Council', logo: '/logos/stalbanslogo.png' },
-    manchester: { name: 'Manchester City Council', logo: null },
-    liverpool: { name: 'Liverpool City Council', logo: null },
+    manchester: { name: 'Manchester City Council', logo: '/logos/manchesterlogo.png' },
+    liverpool: { name: 'Liverpool City Council', logo: '/logos/liverpoollogo.png' },
 };
 
 const LoginPage: React.FC = () => {
@@ -29,7 +29,8 @@ const LoginPage: React.FC = () => {
     const location = useLocation();
 
     // 1. Detect which Council was clicked
-    const councilId = location.state?.councilId;
+    const councilId = location.state?.councilId || localStorage.getItem('selected_council_id');
+    
     const selectedCouncil = councilId ? COUNCILS_MAP[councilId] : null;
 
     // 2. Dynamic Config based on Selection vs Default
@@ -47,7 +48,7 @@ const LoginPage: React.FC = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!email || !password) return;
-        await login(email, password);
+        await login(email, password, councilId);
     };
 
     return (

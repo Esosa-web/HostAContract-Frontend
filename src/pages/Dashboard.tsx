@@ -1,3 +1,4 @@
+import { useAuth } from '../context/AuthContext';
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -20,8 +21,8 @@ const COUNCILS_MAP: Record<string, { name: string, logo: string | null }> = {
     dacorum: { name: 'Dacorum Borough Council', logo: '/logos/dacorumlogo.jpg' },
     hertsmere: { name: 'Hertsmere Borough Council', logo: '/logos/hertsmerelogo.png' },
     stalbans: { name: 'St Albans City & District Council', logo: '/logos/stalbanslogo.png' },
-    manchester: { name: 'Manchester City Council', logo: null }, // Fallback logic handled below
-    liverpool: { name: 'Liverpool City Council', logo: null },
+    manchester: { name: 'Manchester City Council', logo: '/logos/manchesterlogo.png' }, // Fallback logic handled below
+    liverpool: { name: 'Liverpool City Council', logo: '/logos/liverpoollogo.png'  },
 };
 
 // --- MOCK CHART DATA ---
@@ -64,16 +65,16 @@ const ARCHIVED_CONTRACTS = [
 ];
 
 const Dashboard = () => {
+    const { user } = useAuth();
     const [activeTab, setActiveTab] = useState<'active' | 'archive'>('active');
     const [contracts, setContracts] = useState(ACTIVE_CONTRACTS);
     const location = useLocation();
 
     // 1. Get Council Config (or Default)
-    // In a real app, this would come from AuthContext user data
-    // For now, we assume standard flow: Landing -> Login -> Dashboard
-    // Since we don't persist state perfectly in this mock, we default to Watford for the demo look.
-    const councilId = 'watford'; // Forced for 1.0 Demo Polish
-    const config = COUNCILS_MAP[councilId];
+    // READ FROM USER CONTEXT instead of hardcoded string
+    // @ts-ignore (if councilId isn't strictly typed yet)
+    const councilId = user?.councilId || 'watford'; 
+    const config = COUNCILS_MAP[councilId] || COUNCILS_MAP['watford'];
 
     // Load local storage new contracts
     useEffect(() => {

@@ -242,6 +242,7 @@ export interface AuthenticatedUser { // User data to store in frontend auth stat
     subscription_status: string | null; // Can be null if not a subscriber
     // Add any other user fields you want readily available in the frontend state
     is_staff: boolean; // <-- ADD THIS LINE
+    councilId?: string;
   }
   
   export interface AuthState {
@@ -253,7 +254,7 @@ export interface AuthenticatedUser { // User data to store in frontend auth stat
   }
   
   export interface AuthContextType extends AuthState {
-    login: (email_: string, password_: string) => Promise<void>;
+    login: (email_: string, password_: string, councilId?: string) => Promise<void>;
     register: (userData: any) => Promise<void>; // Define userData more specifically later
     logout: () => void;
     setApiError: (message: string | null) => void;
