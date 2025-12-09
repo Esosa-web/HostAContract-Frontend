@@ -339,7 +339,7 @@ const SupplierApplyModal: React.FC<SupplierApplyModalProps> = ({ isOpen, onClose
                             <div className="p-5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
                                 <div className="flex justify-between items-center mb-4">
                                     <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Committed Spend within Manchester:
+                                        Committed Spend within Watford:
                                     </label>
                                     <span className="text-lg font-bold text-red-600">{socialValueCommitment}%</span>
                                 </div>

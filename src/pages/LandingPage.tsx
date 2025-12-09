@@ -22,7 +22,7 @@ const COUNCILS = [
   { 
     id: 'watford', 
     name: 'Watford Borough Council', 
-    status: 'Operational', 
+    status: 'Demo', 
     region: 'Hertfordshire',
     logo: '/logos/watfordlogo.png' 
   },
@@ -50,7 +50,7 @@ const COUNCILS = [
   { 
     id: 'manchester', 
     name: 'Manchester City Council', 
-    status: 'Demo', 
+    status: 'Pilot', 
     region: 'North West',
     logo: '/logos/manchesterlogo.png' 
   },
@@ -318,7 +318,7 @@ const LandingPage = () => {
     }
 
     localStorage.setItem('selected_council_id', councilId); 
-    
+
     // Navigate with animation feeling
     const loadingToast = toast.loading('Establishing secure connection...');
     setTimeout(() => {
